@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception{
             Country country=new Country();
             String cname=countryName.toUpperCase();
-            if(cname=="IND" || cname=="AUS" || cname=="USA" || cname=="CHI" || cname=="JPN"){
+            if(cname.equals("IND") || cname.equals("AUS") || cname.equals("USA") || cname.equals("CHI") || cname.equals("JPN")){
                 country.setCountryName(CountryName.valueOf(cname));
                 Optional<ServiceProvider> serviceProvider=serviceProviderRepository1.findById(serviceProviderId);
                 if(serviceProvider.isPresent()){
