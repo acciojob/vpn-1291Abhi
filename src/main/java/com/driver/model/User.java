@@ -24,7 +24,6 @@ public class User {
 
     public User() {
         this.maskedIp=null;
-        this.connected=false;
     }
 
     public String getUsername() {
