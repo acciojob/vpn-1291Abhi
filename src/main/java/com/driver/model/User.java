@@ -23,7 +23,6 @@ public class User {
     List<Connection> connectionList =new ArrayList<>();
 
     public User() {
-        this.maskedIp=null;
     }
 
     public String getUsername() {
