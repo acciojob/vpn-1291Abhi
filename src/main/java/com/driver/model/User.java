@@ -69,7 +69,15 @@ public class User {
     @JoinColumn
     List<ServiceProvider> serviceProviderList=new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<Connection> connections=new ArrayList<>();
+    List<Connection> cconnectionList =new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public List<ServiceProvider> getServiceProviderList() {
         return serviceProviderList;
@@ -79,12 +87,12 @@ public class User {
         this.serviceProviderList = serviceProviderList;
     }
 
-    public List<Connection> getConnections() {
-        return connections;
+    public List<Connection> getCconnectionList() {
+        return cconnectionList;
     }
 
-    public void setConnections(List<Connection> connections) {
-        this.connections = connections;
+    public void setCconnectionList(List<Connection> cconnectionList) {
+        this.cconnectionList = cconnectionList;
     }
 
     public Country getCountry() {

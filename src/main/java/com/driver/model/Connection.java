@@ -12,6 +12,14 @@ public class Connection {
     @JoinColumn
     ServiceProvider serviceProvider;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
