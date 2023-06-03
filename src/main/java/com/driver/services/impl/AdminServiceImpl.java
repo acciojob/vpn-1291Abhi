@@ -1,6 +1,6 @@
 package com.driver.services.impl;
 
-import com.driver.Exception.CountryNotFoundException;
+
 import com.driver.model.Admin;
 import com.driver.model.Country;
 import com.driver.model.CountryName;
@@ -69,7 +69,7 @@ public class AdminServiceImpl implements AdminService {
                 return null;
             }
             else{
-                throw new CountryNotFoundException("Country not found");
+                throw new Exception("Country not found");
             }
 
     }
