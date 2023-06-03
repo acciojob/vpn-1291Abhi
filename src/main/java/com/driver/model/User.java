@@ -16,13 +16,20 @@ public class User {
     private boolean connected;
     @OneToOne(mappedBy = "country",cascade = CascadeType.ALL)
     Country originalCountry;
+
     @ManyToMany
     @JoinColumn
     List<ServiceProvider> serviceProviderList=new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<Connection> connectionList =new ArrayList<>();
 
-    public User() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -57,7 +64,7 @@ public class User {
         this.maskedIp = maskedIp;
     }
 
-    public boolean getConnected() {
+    public boolean isConnected() {
         return connected;
     }
 
@@ -65,21 +72,12 @@ public class User {
         this.connected = connected;
     }
 
-    public User(String username, String password, String originalIp, String maskedIp, boolean connected) {
-        this.username = username;
-        this.password = password;
-        this.originalIp = originalIp;
-        this.maskedIp = maskedIp;
-        this.connected = connected;
+    public Country getOriginalCountry() {
+        return originalCountry;
     }
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setOriginalCountry(Country originalCountry) {
+        this.originalCountry = originalCountry;
     }
 
     public List<ServiceProvider> getServiceProviderList() {
@@ -98,14 +96,26 @@ public class User {
         this.connectionList = connectionList;
     }
 
-    public Country getOriginalCountry() {
-        return originalCountry;
+    public User(String username, String password, String originalIp, String maskedIp, boolean connected) {
+        this.username = username;
+        this.password = password;
+        this.originalIp = originalIp;
+        this.maskedIp = maskedIp;
+        this.connected = connected;
     }
 
+    public User() {
+    }
 
-    public void setOriginalCountry(Country originalCountry) {
+    public User(int id, String username, String password, String originalIp, String maskedIp, boolean connected, Country originalCountry, List<ServiceProvider> serviceProviderList, List<Connection> connectionList) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.originalIp = originalIp;
+        this.maskedIp = maskedIp;
+        this.connected = connected;
         this.originalCountry = originalCountry;
+        this.serviceProviderList = serviceProviderList;
+        this.connectionList = connectionList;
     }
-
-
 }
