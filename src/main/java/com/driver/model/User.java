@@ -11,7 +11,7 @@ public class User {
     private int id;
     private String username;
     private String password;
-    private String originalIp;
+    private String originalCountry;
     private String maskedIp;
     private boolean connected;
 
@@ -34,12 +34,12 @@ public class User {
         this.password = password;
     }
 
-    public String getOriginalIp() {
-        return originalIp;
+    public String getOriginalCountry() {
+        return originalCountry;
     }
 
-    public void setOriginalIp(String originalIp) {
-        this.originalIp = originalIp;
+    public void setOriginalCountry(String originalCountry) {
+        this.originalCountry = originalCountry;
     }
 
     public String getMaskedIp() {
@@ -50,7 +50,7 @@ public class User {
         this.maskedIp = maskedIp;
     }
 
-    public boolean isConnected() {
+    public boolean getConnected() {
         return connected;
     }
 
@@ -58,10 +58,10 @@ public class User {
         this.connected = connected;
     }
 
-    public User(String username, String password, String originalIp, String maskedIp, boolean connected) {
+    public User(String username, String password, String originalCountry, String maskedIp, boolean connected) {
         this.username = username;
         this.password = password;
-        this.originalIp = originalIp;
+        this.originalCountry = originalCountry;
         this.maskedIp = maskedIp;
         this.connected = connected;
     }
@@ -69,7 +69,7 @@ public class User {
     @JoinColumn
     List<ServiceProvider> serviceProviderList=new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<Connection> cconnectionList =new ArrayList<>();
+    List<Connection> connectionList =new ArrayList<>();
 
     public int getId() {
         return id;
@@ -87,17 +87,18 @@ public class User {
         this.serviceProviderList = serviceProviderList;
     }
 
-    public List<Connection> getCconnectionList() {
-        return cconnectionList;
+    public List<Connection> getConnectionList() {
+        return connectionList;
     }
 
-    public void setCconnectionList(List<Connection> cconnectionList) {
-        this.cconnectionList = cconnectionList;
+    public void setConnectionList(List<Connection> connectionList) {
+        this.connectionList = connectionList;
     }
 
     public Country getCountry() {
         return country;
     }
+
 
     public void setCountry(Country country) {
         this.country = country;
