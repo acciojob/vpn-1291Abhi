@@ -22,67 +22,61 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public User connect(int userId, String countryName) throws Exception{
-        Optional<User> user=userRepository2.findById(userId);
-        if(user.isPresent()) {
-            if (user.get().getMaskedIp() != null) {
-                throw new Exception("Already connected");
-            }
+        User user = userRepository2.findById(userId).get();
+        if (user.getMaskedIp() != null){
+            throw new Exception("Already connected");
+        }
 
-            if (countryName.equalsIgnoreCase(user.get().getOriginalCountry().getCountryName().toString())) {
-                return user.get();
-            }
+        if (countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
+            return user;
+        }
 
-            if (user.get().getServiceProviderList() == null) {
-                throw new Exception("Unable to connect");
-            }
+        if (user.getServiceProviderList() == null){
+            throw new Exception("Unable to connect");
+        }
 
-            List<ServiceProvider> serviceProviderList = user.get().getServiceProviderList();
-            ServiceProvider spld = null;
-            int lid = Integer.MAX_VALUE;
-            Country country = null;
-            for (ServiceProvider serviceProvider : serviceProviderList) {
-                List<Country> countryList = serviceProvider.getCountryList();
-                for (Country country1 : countryList) {
-                    if (countryName.equalsIgnoreCase(country1.getCountryName().toString()) && lid > serviceProvider.getId()) {
-                        lid = serviceProvider.getId();
-                        spld = serviceProvider;
-                        country = country1;
-                    }
+        List<ServiceProvider> serviceProviderList = user.getServiceProviderList();
+        ServiceProvider serviceProviderWithLowestId = null;
+        int lowestId = Integer.MAX_VALUE;
+        Country country = null;
+        for (ServiceProvider serviceProvider : serviceProviderList){
+            List<Country> countryList = serviceProvider.getCountryList();
+            for (Country country1 : countryList){
+                if (countryName.equalsIgnoreCase(country1.getCountryName().toString()) && lowestId>serviceProvider.getId()){
+                    lowestId = serviceProvider.getId();
+                    serviceProviderWithLowestId = serviceProvider;
+                    country = country1;
                 }
             }
-
-            if (spld != null) {
-                Connection connection = new Connection();
-                connection.setUser(user.get());
-                connection.setServiceProvider(spld);
-                user.get().setMaskedIp(country.getCode() + "." + spld.getId() + "." + userId);
-                user.get().setConnected(true);
-                user.get().getConnectionList().add(connection);
-                spld.getConnectionList().add(connection);
-                userRepository2.save(user.get());
-                serviceProviderRepository2.save(spld);
-            } else {
-                throw new Exception("Unable to connect");
-            }
-            return user.get();
         }
-        return null;
+
+        if (serviceProviderWithLowestId != null){
+            Connection connection = new Connection();
+            connection.setUser(user);
+            connection.setServiceProvider(serviceProviderWithLowestId);
+            user.setMaskedIp(country.getCode() + "." + serviceProviderWithLowestId.getId() + "." + userId);
+            user.setConnected(true);
+            user.getConnectionList().add(connection);
+            serviceProviderWithLowestId.getConnectionList().add(connection);
+            userRepository2.save(user);
+            serviceProviderRepository2.save(serviceProviderWithLowestId);
+        }
+        else{
+            throw new Exception("Unable to connect");
+        }
+        return user;
     }
     @Override
     public User disconnect(int userId) throws Exception {
-        Optional<User> user=userRepository2.findById(userId);
-        if(user.isPresent()){
-            if(user.get().getConnected()){
-                user.get().setConnected(false);
-                user.get().setMaskedIp(null);
-                User savedUser=userRepository2.save(user.get());
-                return savedUser;
-            }
-            else{
-                throw new Exception("Already disconnected");
-            }
+
+        User user = userRepository2.findById(userId).get();
+        if (!user.getConnected()){
+            throw new Exception("Already disconnected");
         }
-        return null;
+        user.setMaskedIp(null);
+        user.setConnected(false);
+        userRepository2.save(user);
+        return user;
     }
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {

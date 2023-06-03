@@ -32,28 +32,21 @@ public class AdminServiceImpl implements AdminService {
         admin.setUsername(username);
         admin.setPassword(password);
 
-        Admin savedAdmin=adminRepository1.save(admin);
-        return savedAdmin;
+        return adminRepository1.save(admin);
+
     }
 
     @Override
     public Admin addServiceProvider(int adminId, String providerName) {
-        Optional<Admin> admin=adminRepository1.findById(adminId);
-        if(admin.isPresent()){
-            List<ServiceProvider> serviceProviderList=admin.get().getServiceProviders();
-            ServiceProvider serviceProvider=new ServiceProvider();
-            serviceProvider.setName(providerName);
-            serviceProvider.setAdmin(admin.get());
-
-
-            serviceProviderList.add(serviceProvider);
-            admin.get().setServiceProviders(serviceProviderList);
-            serviceProviderRepository1.save(serviceProvider);
-            adminRepository1.save(admin.get());
-
-            return admin.get();
-        }
-        return null;
+        Admin admin = adminRepository1.findById(adminId).get();
+        ServiceProvider serviceProvider = new ServiceProvider();
+        serviceProvider.setName(providerName);
+        serviceProvider.setAdmin(admin);
+        List<ServiceProvider> serviceProviderList = admin.getServiceProviders();
+        serviceProviderList.add(serviceProvider);
+        admin.setServiceProviders(serviceProviderList);
+        adminRepository1.save(admin);
+        return admin;
     }
 
     @Override
