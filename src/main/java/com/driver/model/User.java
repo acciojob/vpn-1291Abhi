@@ -13,7 +13,7 @@ public class User {
     private String password;
     private String originalIp;
     private String maskedIp;
-    private Boolean connected=false;
+    private Boolean connected;
     @OneToOne(mappedBy = "country",cascade = CascadeType.ALL)
     Country originalCountry;
 
@@ -68,7 +68,7 @@ public class User {
         return connected;
     }
 
-    public void setConnected(boolean connected) {
+    public void setConnected(Boolean connected) {
         this.connected = connected;
     }
 
@@ -96,7 +96,7 @@ public class User {
         this.connectionList = connectionList;
     }
 
-    public User(String username, String password, String originalIp, String maskedIp, boolean connected) {
+    public User(String username, String password, String originalIp, String maskedIp, Boolean connected) {
         this.username = username;
         this.password = password;
         this.originalIp = originalIp;
@@ -107,7 +107,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String username, String password, String originalIp, String maskedIp, boolean connected, Country originalCountry, List<ServiceProvider> serviceProviderList, List<Connection> connectionList) {
+    public User(int id, String username, String password, String originalIp, String maskedIp, Boolean connected, Country originalCountry, List<ServiceProvider> serviceProviderList, List<Connection> connectionList) {
         this.id = id;
         this.username = username;
         this.password = password;
