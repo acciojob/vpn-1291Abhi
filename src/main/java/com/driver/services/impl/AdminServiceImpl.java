@@ -29,7 +29,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin register(String username, String password) {
         Admin admin=new Admin();
-        admin.setUserName(username);
+        admin.setUsername(username);
         admin.setPassword(password);
 
         Admin savedAdmin=adminRepository1.save(admin);
@@ -40,14 +40,14 @@ public class AdminServiceImpl implements AdminService {
     public Admin addServiceProvider(int adminId, String providerName) {
         Optional<Admin> admin=adminRepository1.findById(adminId);
         if(admin.isPresent()){
-            List<ServiceProvider> serviceProviderList=admin.get().getServiceProviderList();
+            List<ServiceProvider> serviceProviderList=admin.get().getServiceProviders();
             ServiceProvider serviceProvider=new ServiceProvider();
             serviceProvider.setName(providerName);
             serviceProvider.setAdmin(admin.get());
             serviceProviderRepository1.save(serviceProvider);
 
             serviceProviderList.add(serviceProvider);
-            admin.get().setServiceProviderList(serviceProviderList);
+            admin.get().setServiceProviders(serviceProviderList);
             return admin.get();
         }
         return null;
