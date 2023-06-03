@@ -10,6 +10,16 @@ public class ServiceProvider {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @ManyToMany(mappedBy = "serviceProviderList", cascade = CascadeType.ALL)
+    List<User> users=new ArrayList<>();
+    @ManyToOne
+    @JoinColumn
+    Admin admin;
+    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
+    List<Connection> connectionList =new ArrayList<>();
+
+    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
+    List<Country> countryList =new ArrayList<>();
 
     public ServiceProvider(String name) {
         this.name = name;
@@ -22,18 +32,17 @@ public class ServiceProvider {
         return name;
     }
 
+    public ServiceProvider(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
-    @ManyToOne
-            @JoinColumn
-    Admin admin;
 
-    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    List<Connection> connectionList =new ArrayList<>();
 
-    @OneToMany(mappedBy = "serviceProvider",cascade = CascadeType.ALL)
-    List<Country> countryList =new ArrayList<>();
+
 
     public int getId() {
         return id;
@@ -51,8 +60,7 @@ public class ServiceProvider {
         this.users = users;
     }
 
-    @ManyToMany(mappedBy = "serviceProviderList", cascade = CascadeType.ALL)
-    List<User> users=new ArrayList<>();
+
 
     public Admin getAdmin() {
         return admin;

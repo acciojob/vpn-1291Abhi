@@ -11,6 +11,21 @@ public  class Country{
     private int id;
     private CountryName countryName;
     private String code;
+    @ManyToOne
+    @JoinColumn
+    ServiceProvider serviceProvider;
+
+    @OneToOne
+    @JoinColumn
+    User user;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Country(CountryName countryName, String code) {
         this.countryName = countryName;
@@ -35,13 +50,7 @@ public  class Country{
     public void setCode(String code) {
         this.code = code;
     }
-    @ManyToOne
-    @JoinColumn
-    ServiceProvider serviceProvider;
 
-    @OneToOne
-    @JoinColumn
-    User user;
 
     public ServiceProvider getServiceProvider() {
         return serviceProvider;

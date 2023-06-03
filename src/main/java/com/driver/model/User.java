@@ -11,11 +11,20 @@ public class User {
     private int id;
     private String username;
     private String password;
-    private String originalCountry;
+    private String originalIp;
     private String maskedIp;
     private boolean connected;
+    @OneToOne(mappedBy = "country",cascade = CascadeType.ALL)
+    Country originalCountry;
+    @ManyToMany
+    @JoinColumn
+    List<ServiceProvider> serviceProviderList=new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Connection> connectionList =new ArrayList<>();
 
     public User() {
+        this.maskedIp=null;
+        this.connected=false;
     }
 
     public String getUsername() {
@@ -34,12 +43,12 @@ public class User {
         this.password = password;
     }
 
-    public String getOriginalCountry() {
-        return originalCountry;
+    public String getOriginalIp() {
+        return originalIp;
     }
 
-    public void setOriginalCountry(String originalCountry) {
-        this.originalCountry = originalCountry;
+    public void setOriginalIp(String originalIp) {
+        this.originalIp = originalIp;
     }
 
     public String getMaskedIp() {
@@ -58,18 +67,14 @@ public class User {
         this.connected = connected;
     }
 
-    public User(String username, String password, String originalCountry, String maskedIp, boolean connected) {
+    public User(String username, String password, String originalIp, String maskedIp, boolean connected) {
         this.username = username;
         this.password = password;
-        this.originalCountry = originalCountry;
+        this.originalIp = originalIp;
         this.maskedIp = maskedIp;
         this.connected = connected;
     }
-    @ManyToMany
-    @JoinColumn
-    List<ServiceProvider> serviceProviderList=new ArrayList<>();
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<Connection> connectionList =new ArrayList<>();
+
 
     public int getId() {
         return id;
@@ -95,15 +100,14 @@ public class User {
         this.connectionList = connectionList;
     }
 
-    public Country getCountry() {
-        return country;
+    public Country getOriginalCountry() {
+        return originalCountry;
     }
 
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setOriginalCountry(Country originalCountry) {
+        this.originalCountry = originalCountry;
     }
 
-    @OneToOne(mappedBy = "country",cascade = CascadeType.ALL)
-    Country country;
+
 }

@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         Country country=new Country();
         country.setCountryName(CountryName.valueOf(countryName));
 
-        user.setCountry(country);
+        user.setOriginalCountry(country);
         user.setConnected(false);
         return userRepository3.save(user);
     }

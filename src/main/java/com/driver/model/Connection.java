@@ -11,6 +11,18 @@ public class Connection {
     @ManyToOne
     @JoinColumn
     ServiceProvider serviceProvider;
+    @ManyToOne
+    @JoinColumn
+    User user;
+
+    public Connection() {
+    }
+
+    public Connection(int id, ServiceProvider serviceProvider, User user) {
+        this.id = id;
+        this.serviceProvider = serviceProvider;
+        this.user = user;
+    }
 
     public int getId() {
         return id;
@@ -36,7 +48,5 @@ public class Connection {
         this.user = user;
     }
 
-    @ManyToOne
-    @JoinColumn
-    User user;
+
 }

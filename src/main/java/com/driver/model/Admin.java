@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String username;
     private String password;
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    List<ServiceProvider> serviceProviders =new ArrayList<>();
 
     public Admin(){}
 
@@ -38,11 +39,11 @@ public class Admin {
     }
 
     public List<ServiceProvider> getServiceProviders() {
-        return ServiceProviders;
+        return serviceProviders;
     }
 
     public void setServiceProviders(List<ServiceProvider> serviceProviders) {
-        this.ServiceProviders = serviceProviders;
+        this.serviceProviders = serviceProviders;
     }
 
     public int getId() {
@@ -53,7 +54,6 @@ public class Admin {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-    List<ServiceProvider> ServiceProviders =new ArrayList<>();
+
 
 }
